@@ -16,14 +16,20 @@ import streamlit as st
 
 from logica import process_folders_to_kmz
 
-st.set_page_config(page_title="Carpeta a KML", page_icon="🗂️", layout="centered")
+_LOGO_GEOTEC = Path(__file__).resolve().parent / "assets" / "logo_geotec.png"
+
+st.set_page_config(page_title="Carpeta a KML", page_icon=str(_LOGO_GEOTEC), layout="centered")
 
 
 def _password_ok() -> bool:
     if st.session_state.get("autenticado"):
         return True
 
-    st.title("🗂️ Carpeta a KML")
+    col_logo, col_titulo = st.columns([1, 4], vertical_alignment="center")
+    with col_logo:
+        st.image(str(_LOGO_GEOTEC), width=140)
+    with col_titulo:
+        st.title("🗂️ Carpeta a KML")
     st.caption("Acceso restringido — pide la contraseña a quien administra esta herramienta.")
     clave_ingresada = st.text_input("Contraseña", type="password")
     entrar = st.button("Entrar", type="primary")
@@ -52,7 +58,11 @@ if not _password_ok():
 # App principal (solo se ve tras autenticarse)
 # ─────────────────────────────────────────────
 
-st.title("🗂️ Generador de KMZ — Carpeta a KML")
+col_logo, col_titulo = st.columns([1, 4], vertical_alignment="center")
+with col_logo:
+    st.image(str(_LOGO_GEOTEC), width=140)
+with col_titulo:
+    st.title("🗂️ Generador de KMZ — Carpeta a KML")
 st.caption(
     "Sube un .zip que contenga una carpeta por punto/predio/sitio, cada una con sus "
     "fotos (con GPS en el EXIF). Se genera un KMZ con un Placemark por carpeta "
